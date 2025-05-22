@@ -1,6 +1,6 @@
 # Define input/output paths
-$inputCsvPath = "C:\Users\Welcome\Desktop\Win Config Audit\Win Config Audit OG\Win Config Audit\Win_Registry_Queries.csv"
-$outputJsonPath = "C:\Users\Welcome\Desktop\Win Config Audit\Win Config Audit OG\Win Config Audit\output.json"
+$inputCsvPath = "C:\Users\Welcome\Desktop\Win Config Audit Final\Win_Config_Audit\Win_Registry_Queries.csv"
+$outputJsonPath = "C:\Users\Welcome\Desktop\Win Config Audit Final\Win_Config_Audit\output.json"
 
 # Import CSV data
 $csvData = Import-Csv -Path $inputCsvPath
@@ -32,7 +32,7 @@ foreach ($row in $csvData) {
         $settingName = $row.reg_query_name
         $line = $policyContent | Where-Object { $_ -match "^\s*$settingName\s*=" }
         if ($line) {
-            $sidRaw = ($line -split "=")[1].Trim()
+            $sidRaw = ($line -split "=")[1].Trim().Trim('"')
             $sidParts = $sidRaw -split ","
             $resolvedNames = $sidParts | ForEach-Object {
                 $entry = $_.Trim()
