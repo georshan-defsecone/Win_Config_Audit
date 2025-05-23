@@ -76,3 +76,4 @@ $json = $json -replace '\\u0027', "'"  # Replace Unicode escaped single quotes w
 [System.IO.File]::WriteAllText($outputJsonPath, $json, [System.Text.Encoding]::UTF8)
 
 Write-Host "Audit results saved to $outputJsonPath"
+    

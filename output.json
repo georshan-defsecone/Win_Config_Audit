@@ -327,6 +327,216 @@
         "audit_name":  "2.3.1.4 (L1) Configure 'Accounts: Rename administrator account' (Automated)",
         "reg_query_path":  "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Accounts: Rename administrator account",
         "query_method":  "local_group_policy",
-        "value":  "\"Administrator\""
+        "value":  "Administrator"
+    },
+    {
+        "audit_name":  "2.3.1.5 (L1) Configure 'Accounts: Rename guest account' (Automated)",
+        "reg_query_path":  "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Accounts: Rename guest account",
+        "query_method":  "local_group_policy",
+        "value":  "Not Applicable"
+    },
+    {
+        "audit_name":  "2.3.2.1 (L1) Ensure 'Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings' is set to 'Enabled' (Automated) ",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "query_method":  "registry",
+        "value":  1
+    },
+    {
+        "audit_name":  "2.3.2.2 (L1) Ensure 'Audit: Shut down system immediately if unable to log security audits' is set to 'Disabled' (Automated)",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.4.1 (L2) Ensure 'Devices: Prevent users from installing printer drivers' is set to 'Enabled' (Automated)",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Print\\Providers\\LanMan Print Services\\Servers",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.7.1 (L1) Ensure 'Interactive logon: Do not require CTRL+ALT+DEL' is set to 'Disabled' (Automated)",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "query_method":  "registry",
+        "value":  "Key Found, Value Not Present"
+    },
+    {
+        "audit_name":  "2.3.7.2 (L1) Ensure 'Interactive logon: Don't display last signed-in' is set to 'Enabled' (Automated)",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.7.3 (BL) Ensure 'Interactive logon: Machine account lockout threshold' is set to '10 or fewer invalid logon attempts, but not 0' (Automated)",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "query_method":  "registry",
+        "value":  "Key Found, Value Not Present"
+    },
+    {
+        "audit_name":  "2.3.7.4 (L1) Ensure 'Interactive logon: Machine inactivity limit' is set to '900 or fewer second(s), but not 0' (Automated)",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "query_method":  "registry",
+        "value":  "Key Found, Value Not Present"
+    },
+    {
+        "audit_name":  "2.3.7.5 (L1) Configure 'Interactive logon: Message text for users attempting to log on' (Automated)",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "query_method":  "registry",
+        "value":  "\u0000"
+    },
+    {
+        "audit_name":  "2.3.7.6 (L1) Configure 'Interactive logon: Message title for users attempting to log on'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "query_method":  "registry",
+        "value":  ""
+    },
+    {
+        "audit_name":  "2.3.7.7 (L1) Ensure 'Interactive logon: Prompt user to change password before expiration' is set to 'between 5 and 14 days'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+        "query_method":  "registry",
+        "value":  5
+    },
+    {
+        "audit_name":  "2.3.7.8 (L1) Ensure 'Interactive logon: Smart card removal behavior' is set to 'Lock Workstation' or higher (Automated)",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+        "query_method":  "registry",
+        "value":  "0"
+    },
+    {
+        "audit_name":  "2.3.8.1 (L1) Ensure 'Microsoft network client: Digitally sign communications (always)' is set to 'Enabled' (Automated)",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.8.2 (L1) Ensure 'Microsoft network client: Digitally sign communications (if server agrees)' is set to 'Enabled' (Automated)",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters",
+        "query_method":  "registry",
+        "value":  1
+    },
+    {
+        "audit_name":  "2.3.8.3 (L1) Ensure 'Microsoft network client: Send unencrypted password to third-party SMB servers' is set to 'Disabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.9.1 (L1) Ensure 'Microsoft network server: Amount of idle time required before suspending session' is set to '15 or fewer minute(s)'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters",
+        "query_method":  "registry",
+        "value":  "Key Found, Value Not Present"
+    },
+    {
+        "audit_name":  "2.3.9.2 (L1) Ensure 'Microsoft network server: Digitally sign communications (always)' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.9.3 (L1) Ensure 'Microsoft network server: Digitally sign communications (if client agrees)' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.9.4 (L1) Ensure 'Microsoft network server: Disconnect clients when logon hours expire' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters",
+        "query_method":  "registry",
+        "value":  1
+    },
+    {
+        "audit_name":  "2.3.9.5 (L1) Ensure 'Microsoft network server: Server SPN target name validation level' is set to 'Accept if provided by client' or higher",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters",
+        "query_method":  "registry",
+        "value":  "Key Found, Value Not Present"
+    },
+    {
+        "audit_name":  "2.3.10.1 (L1) Ensure 'Network access: Allow anonymous SID/Name translation' is set to 'Disabled'",
+        "reg_query_path":  "Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Local Policies\\Security Options\\Network access: Allow anonymous SID/Name translation",
+        "query_method":  "local_group_policy",
+        "value":  "Not Applicable"
+    },
+    {
+        "audit_name":  "2.3.10.2 (L1) Ensure 'Network access: Do not allow anonymous enumeration of SAM accounts' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "query_method":  "registry",
+        "value":  1
+    },
+    {
+        "audit_name":  "2.3.10.3 (L1) Ensure 'Network access: Do not allow anonymous enumeration of SAM accounts and shares' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.10.4 (L1) Ensure 'Network access: Do not allow storage of passwords and credentials for network authentication' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.10.5 (L1) Ensure 'Network access: Let Everyone permissions apply to anonymous users' is set to 'Disabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "query_method":  "registry",
+        "value":  0
+    },
+    {
+        "audit_name":  "2.3.10.6 (L1) Ensure 'Network access: Named Pipes that can be accessed anonymously' is set to 'None'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters",
+        "query_method":  "registry",
+        "value":  [
+                      ""
+                  ]
+    },
+    {
+        "audit_name":  "2.3.10.7 (L1) Ensure 'Network access: Remotely accessible registry paths' is configured",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\SecurePipeServers\\Winreg\\AllowedExactPaths",
+        "query_method":  "registry",
+        "value":  [
+                      "System\\CurrentControlSet\\Control\\ProductOptions",
+                      "System\\CurrentControlSet\\Control\\Server Applications",
+                      "Software\\Microsoft\\Windows NT\\CurrentVersion"
+                  ]
+    },
+    {
+        "audit_name":  "2.3.10.8 (L1) Ensure 'Network access: Remotely accessible registry paths and sub-paths' is configured",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\SecurePipeServers\\Winreg\\AllowedPaths",
+        "query_method":  "registry",
+        "value":  [
+                      "System\\CurrentControlSet\\Control\\Print\\Printers",
+                      "System\\CurrentControlSet\\Services\\Eventlog",
+                      "Software\\Microsoft\\OLAP Server",
+                      "Software\\Microsoft\\Windows NT\\CurrentVersion\\Print",
+                      "Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows",
+                      "System\\CurrentControlSet\\Control\\ContentIndex",
+                      "System\\CurrentControlSet\\Control\\Terminal Server",
+                      "System\\CurrentControlSet\\Control\\Terminal Server\\UserConfig",
+                      "System\\CurrentControlSet\\Control\\Terminal Server\\DefaultUserConfiguration",
+                      "Software\\Microsoft\\Windows NT\\CurrentVersion\\Perflib",
+                      "System\\CurrentControlSet\\Services\\SysmonLog"
+                  ]
+    },
+    {
+        "audit_name":  "2.3.10.9 (L1) Ensure 'Network access: Restrict anonymous access to Named Pipes and Shares' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters",
+        "query_method":  "registry",
+        "value":  1
+    },
+    {
+        "audit_name":  "2.3.10.10 (L1) Ensure 'Network access: Restrict clients allowed to make remote calls to SAM' is set to 'Administrators: Remote Access: Allow'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "query_method":  "registry",
+        "value":  "Key Found, Value Not Present"
+    },
+    {
+        "audit_name":  "2.3.10.11 (L1) Ensure 'Network access: Shares that can be accessed anonymously' is set to 'None'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters",
+        "query_method":  "registry",
+        "value":  "Key Found, Value Not Present"
+    },
+    {
+        "audit_name":  "2.3.10.12 (L1) Ensure 'Network access: Sharing and security model for local accounts' is set to 'Classic - local users authenticate as themselves'",
+        "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "query_method":  "registry",
+        "value":  0
     }
 ]
