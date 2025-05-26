@@ -17,30 +17,33 @@ $errorLog = @()
 foreach ($row in $csvData) {
     $queryResult = ""
 
-    switch ($row.query_method) {
+    switch -Wildcard  ($row.query_method) {
         "registry" {
             try {
                 $regItem = Get-ItemProperty -Path $row.reg_query_path -ErrorAction Stop
 
                 if ($regItem.PSObject.Properties[$row.reg_query_name]) {
                     $queryResult = $regItem.($row.reg_query_name)
-                } else {
+                }
+                else {
                     $queryResult = "Key Found, Value Not Present"
                 }
 
-            } catch {
+            }
+            catch {
                 if ($_.FullyQualifiedErrorId -like "PathNotFound*") {
                     $queryResult = "Registry Key Not Found"
-                } else {
+                }
+                else {
                     $queryResult = "Unexpected Error"
                 }
 
                 $errorLog += [PSCustomObject]@{
-                    Timestamp     = (Get-Date).ToString("s")
-                    QueryPath     = $row.reg_query_path
-                    QueryName     = $row.reg_query_name
-                    ErrorMessage  = $_.Exception.Message
-                    ErrorType     = $_.FullyQualifiedErrorId
+                    Timestamp    = (Get-Date).ToString("s")
+                    QueryPath    = $row.reg_query_path
+                    QueryName    = $row.reg_query_name
+                    ErrorMessage = $_.Exception.Message
+                    ErrorType    = $_.FullyQualifiedErrorId
                 }
             }
         }
@@ -58,10 +61,12 @@ foreach ($row in $csvData) {
                         try {
                             $sidObj = New-Object System.Security.Principal.SecurityIdentifier ($entry.TrimStart('*'))
                             $sidObj.Translate([System.Security.Principal.NTAccount]).Value
-                        } catch {
+                        }
+                        catch {
                             $entry
                         }
-                    } else {
+                    }
+                    else {
                         $entry
                     }
                 }
@@ -72,10 +77,44 @@ foreach ($row in $csvData) {
                 }
 
                 $queryResult = ($resolvedNames -join ", ")
-            } else {
+            }
+            else {
                 $queryResult = "Not Applicable"
             }
         }
+
+        "auditpol" {
+            try {
+                $subcategory = $row.reg_query_name.Trim()
+                $auditOutput = & auditpol /get /subcategory:"$subcategory" 2>$null
+
+                if ($LASTEXITCODE -ne 0 -or !$auditOutput) {
+                    $queryResult = "Error"
+                }
+                else {
+                    $queryResult = "Unknown"
+                    foreach ($line in $auditOutput) {
+                        if ($line -match "^\s*$subcategory\s+(.+)$") {
+                            $queryResult = $matches[1].Trim()
+                            break
+                        }
+                    }
+                }
+            }
+            catch {
+                $queryResult = "Auditpol Command Failed"
+
+                $errorLog += [PSCustomObject]@{
+                    Timestamp    = (Get-Date).ToString("s")
+                    QueryPath    = "auditpol"
+                    QueryName    = $row.reg_query_name
+                    ErrorMessage = $_.Exception.Message
+                    ErrorType    = $_.FullyQualifiedErrorId
+                }
+            }
+        }
+
+
 
         Default {
             $queryResult = "Unknown query_method"
