@@ -89,7 +89,7 @@ foreach ($row in $csvData) {
                 $auditOutput = & auditpol /get /subcategory:"$subcategory" 2>$null
 
                 if ($LASTEXITCODE -ne 0 -or !$auditOutput) {
-                    $queryResult = "Error"
+                    $queryResult = "Error"  
                 }
                 else {
                     $queryResult = "Unknown"
