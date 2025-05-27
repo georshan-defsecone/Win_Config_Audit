@@ -2896,5 +2896,155 @@
         "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service",
         "query_method":  "registry",
         "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.89.1 (L2) Ensure 'Allow Remote Shell Access' is set to 'Disabled'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service\\WinRS",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.90.1 (L1) Ensure 'Allow clipboard sharing with Windows Sandbox' is set to 'Disabled'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Sandbox",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.90.2 (L1) Ensure 'Allow networking in Windows Sandbox' is set to 'Disabled'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\Sandbox",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.91.2.1 (L1) Ensure 'Prevent users from modifying settings' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\App and Browser protection",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.1.1 (L1) Ensure 'No auto-restart with logged on users for scheduled automatic updates installations' is set to 'Disabled'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.2.1 (L1) Ensure 'Configure Automatic Updates' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.2.2 (L1) Ensure 'Configure Automatic Updates: Scheduled install day' is set to '0 - Every day'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.2.3 (L1) Ensure 'Remove access to “Pause updates” feature' is set to 'Enabled'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.4.1 (L1) Ensure 'Manage preview builds' is set to 'Disabled'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.4.2 (L1) Ensure 'Select when Preview Builds and Feature Updates are received' is set to 'Enabled: 180 or more days'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.4.2 (L1) Ensure 'Select when Preview Builds and Feature Updates are received' is set to 'Enabled: 180 or more days'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.4.3 (L1) Ensure 'Select when Quality Updates are received' is set to 'Enabled: 0 days'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "18.10.92.4.3 (L1) Ensure 'Select when Quality Updates are received' is set to 'Enabled: 0 days'",
+        "reg_query_path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.5.1.1 (L1) Ensure 'Turn off toast notifications on the lock screen' is set to 'Enabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\PushNotifications",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.6.6.1.1 (L2) Ensure 'Turn off Help Experience Improvement Program' is set to 'Enabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Policies\\Microsoft\\Assistance\\Client\\1.0",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.5.1 (L1) Ensure 'Do not preserve zone information in file attachments' is set to 'Disabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.5.2 (L1) Ensure 'Notify antivirus programs when opening attachments' is set to 'Enabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.8.1 (L1) Ensure 'Configure Windows spotlight on lock screen' is set to 'Disabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.8.2 (L1) Ensure 'Do not suggest third-party content in Windows spotlight' is set to 'Enabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.8.3 (L2) Ensure 'Do not use diagnostic data for tailored experiences' is set to 'Enabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.8.4 (L2) Ensure 'Turn off all Windows spotlight features' is set to 'Enabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Policies\\Microsoft\\Windows\\CloudContent",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.8.5 (L1) Ensure 'Turn off Spotlight collection on Desktop' is set to 'Enabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.26.1 (L1) Ensure 'Prevent users from sharing files within their profile.' is set to 'Enabled'",
+        "reg_query_path":  "HKU\\[USER SID]\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.42.1 (L1) Ensure 'Always install with elevated privileges' is set to 'Disabled' (Automated)",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Policies\\Microsoft\\Windows\\Installer",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
+    },
+    {
+        "audit_name":  "19.7.44.2.1 (L2) Ensure 'Prevent Codec Download' is set to 'Enabled' (Automated)",
+        "reg_query_path":  "HKU\\[USER SID]\\Software\\Policies\\Microsoft\\WindowsMediaPlayer",
+        "query_method":  "registry",
+        "value":  "Registry Key Not Found"
     }
 ]
