@@ -85,9 +85,10 @@ foreach ($row in $csvData) {
 
         "auditpol" {
             try {
-                $subcategory = $row.reg_query_name.Trim()
-                $auditOutput = & auditpol /get /subcategory:"$subcategory" 2>$null
-
+                $subcategory = $row.reg_query_name
+                $fullCommand = "$($row.reg_query_path):`"$subcategory`""
+                $auditOutput = Invoke-Expression $fullCommand 2>$null
+                
                 if ($LASTEXITCODE -ne 0 -or !$auditOutput) {
                     $queryResult = "Error"  
                 }
