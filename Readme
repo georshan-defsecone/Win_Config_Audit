@@ -1,0 +1,13 @@
+To run in PowerShell
+
+    powershell.exe -ExecutionPolicy Bypass -File "C:\Users\Welcome\Desktop\Win Config Audit Final\Win_Config_Audit\Win_Config_Engine.bak.ps1"
+
+
+To get the registry key value
+
+    Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name AllowOnlineTips 
+
+
+To get local_group_policy value
+
+    (Get-Content C:\secpol.cfg)|Select-String -Pattern "^SeNetworkLogonRight"|ForEach-Object {$_.Line.Split('=')[1].Trim()}
