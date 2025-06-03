@@ -33,7 +33,7 @@
         "audit_name":  "1.1.6 (L1) Ensure 'Relax minimum password length limits' is set to 'Enabled' (Automated)",
         "reg_query_path":  "HKLM:\\System\\CurrentControlSet\\Control\\SAM",
         "query_method":  "registry",
-        "value":  "Key Found, Value Not Present"
+        "value":  0
     },
     {
         "audit_name":  "1.1.7 (L1) Ensure 'Store passwords using reversible encryption' is set to 'Disabled' (Automated)",
@@ -555,7 +555,7 @@
         "audit_name":  "2.3.11.4 (L1) Ensure 'Network security: Configure encryption types allowed for Kerberos' is set to 'AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types' (Automated)",
         "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters",
         "query_method":  "registry",
-        "value":  24
+        "value":  2147483640
     },
     {
         "audit_name":  "2.3.11.5 (L1) Ensure 'Network security: Do not store LAN Manager hash value on next password change' is set to 'Enabled' (Automated)",
@@ -573,7 +573,7 @@
         "audit_name":  "2.3.11.7 (L1) Ensure 'Network security: LAN Manager authentication level' is set to 'Send NTLMv2 response only. Refuse LM \u0026 NTLM' (Automated)",
         "reg_query_path":  "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
         "query_method":  "registry",
-        "value":  "Key Found, Value Not Present"
+        "value":  2
     },
     {
         "audit_name":  "2.3.11.8 (L1) Ensure 'Network security: LDAP client signing requirements' is set to 'Negotiate signing' or higher (Automated)",
@@ -658,7 +658,7 @@
         "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
         "query_method":  "registry",
         "value":  0
-    },
+    },      
     {
         "audit_name":  "2.3.17.7 (L1) Ensure 'User Account Control: Switch to the secure desktop when prompting for elevation' is set to 'Enabled'",
         "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
@@ -1275,7 +1275,7 @@
         "audit_name":  "18.5.1 (L1) Ensure 'MSS: (AutoAdminLogon) Enable Automatic Logon' is set to 'Disabled' (Automated)",
         "reg_query_path":  "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
         "query_method":  "registry",
-        "value":  "0"
+        "value":  "Key Found, Value Not Present"
     },
     {
         "audit_name":  "18.5.2 (L1) Ensure 'MSS: (DisableIPSourceRouting IPv6) IP source routing protection level' is set to 'Enabled: Highest protection, source routing is completely disabled' (Automated)",
