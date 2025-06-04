@@ -52,9 +52,8 @@ def normalize_value(value, value_map=None):
 
     # Handle common error strings
     value_str = str(value).strip()
-    if value_str.lower() in ['not found', 'registry key not found', 'key found, value not present', 'null', 'none', '', '\u0000', '\\u0000']:
+    if not value_map and value_str.lower() in ['not found', 'registry key not found', 'key found, value not present', 'null', 'none', '', '\u0000', '\\u0000']:
         return "Not Found"
-
     return value_str
 
 # Compare values
@@ -129,7 +128,7 @@ def main(output_json_path, input_csv_path, result_csv_path):
     input_data = load_csv(input_csv_path)
     result_data = evaluate_compliance(output_data, input_data)
     write_result_csv(result_data, result_csv_path)
-    print(f"\n✅ Compliance check completed. Results saved to: {result_csv_path}")
+    print(f"\nCompliance check completed. Results saved to: {result_csv_path}")
 
 # CLI support
 if __name__ == '__main__':
