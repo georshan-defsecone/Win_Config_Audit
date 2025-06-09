@@ -18,33 +18,28 @@ $currentUserSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User
 
 # Loop through each audit entry
 foreach ($row in $csvData) {
-    $queryResult = ""
-   # Replace [USER SID] placeholder with actual SID
-   if ($row.reg_query_path -like "*[USER SID]*") {
-       $row.reg_query_path = $row.reg_query_path -replace '\[USER SID\]', $currentUserSid
-   }
-   
+    $queryResult = @()
 
-    switch -Wildcard  ($row.query_method) {
+    # Replace [USER SID] placeholder with actual SID
+    if ($row.reg_query_path -like "*[USER SID]*") {
+        $row.reg_query_path = $row.reg_query_path -replace '\[USER SID\]', $currentUserSid
+    }
+
+    switch -Wildcard ($row.query_method) {
         "registry" {
             try {
                 $regItem = Get-ItemProperty -Path $row.reg_query_path -ErrorAction Stop
 
-                if ($regItem.PSObject.Properties[$row.reg_query_name]) {
-                    $queryResult = $regItem.($row.reg_query_name)
+                $valueNames = $row.reg_query_name -split ',' | ForEach-Object { $_.Trim() }
+                foreach ($name in $valueNames) {
+                    if ($regItem.PSObject.Properties.Name -contains $name) {
+                        $queryResult += @{ ($name) = $regItem.$name }
+                    } else {
+                        $queryResult += @{ ($name) = "Key Found, Value Not Present" }
+                    }
                 }
-                else {
-                    $queryResult = "Key Found, Value Not Present"
-                }
-
-            }
-            catch {
-                if ($_.FullyQualifiedErrorId -like "PathNotFound*") {
-                    $queryResult = "Registry Key Not Found"
-                }
-                else {
-                    $queryResult = "Unexpected Error"
-                }
+            } catch {
+                $queryResult += @{ ($row.reg_query_name) = "Registry Key Not Found" }
 
                 $errorLog += [PSCustomObject]@{
                     Timestamp    = (Get-Date).ToString("s")
@@ -63,31 +58,32 @@ foreach ($row in $csvData) {
             if ($line) {
                 $sidRaw = ($line -split "=")[1].Trim().Trim('"')
                 $sidParts = $sidRaw -split ","
+
                 $resolvedNames = $sidParts | ForEach-Object {
                     $entry = $_.Trim()
-                    if ($entry -match "^\*S-1-") {
+                    if ($entry -like "*S-1-*") {
                         try {
                             $sidObj = New-Object System.Security.Principal.SecurityIdentifier ($entry.TrimStart('*'))
                             $sidObj.Translate([System.Security.Principal.NTAccount]).Value
+                        } catch {
+                            $entry
                         }
-                        catch {
+                    } else {
+                        try {
+                            (New-Object System.Security.Principal.NTAccount($entry)).Translate([System.Security.Principal.NTAccount]).Value
+                        } catch {
                             $entry
                         }
                     }
-                    else {
-                        $entry
-                    }
                 }
 
-                # Clean known prefixes
                 $resolvedNames = $resolvedNames | ForEach-Object {
                     $_ -replace "^(NT AUTHORITY\\|BUILTIN\\|RESTRICTED SERVICES\\)", ""
                 }
 
-                $queryResult = ($resolvedNames -join ", ")
-            }
-            else {
-                $queryResult = "Not Applicable"
+                $queryResult += @{ ($settingName) = ($resolvedNames -join ", ") }
+            } else {
+                $queryResult += @{ ($settingName) = "Not Applicable" }
             }
         }
 
@@ -96,22 +92,21 @@ foreach ($row in $csvData) {
                 $subcategory = $row.reg_query_name
                 $fullCommand = "$($row.reg_query_path):`"$subcategory`""
                 $auditOutput = Invoke-Expression $fullCommand 2>$null
-                
+
                 if ($LASTEXITCODE -ne 0 -or !$auditOutput) {
-                    $queryResult = "Error"  
-                }
-                else {
-                    $queryResult = "Unknown"
+                    $queryResult += @{ ($subcategory) = "Error" }
+                } else {
+                    $value = "Unknown"
                     foreach ($line in $auditOutput) {
                         if ($line -match "^\s*$subcategory\s+(.+)$") {
-                            $queryResult = $matches[1].Trim()
+                            $value = $matches[1].Trim()
                             break
                         }
                     }
+                    $queryResult += @{ ($subcategory) = $value }
                 }
-            }
-            catch {
-                $queryResult = "Auditpol Command Failed"
+            } catch {
+                $queryResult += @{ ($row.reg_query_name) = "Auditpol Command Failed" }
 
                 $errorLog += [PSCustomObject]@{
                     Timestamp    = (Get-Date).ToString("s")
@@ -123,22 +118,25 @@ foreach ($row in $csvData) {
             }
         }
 
-
-
         Default {
-            $queryResult = "Unknown query_method"
+            $queryResult += @{ ($row.reg_query_name) = "Unknown query_method" }
         }
     }
 
-    # Save the result
-    $results += [PSCustomObject]@{
-        audit_name     = $row.audit_name
-        reg_query_path = $row.reg_query_path
-        query_method   = $row.query_method
-        value          = $queryResult
+    # Check for existing audit_name entry and group results
+    $existing = $results | Where-Object { $_.audit_name -eq $row.audit_name }
+
+    if ($existing) {
+        $existing.value += $queryResult
+    } else {
+        $results += [PSCustomObject]@{
+            audit_name     = $row.audit_name
+            reg_query_path = $row.reg_query_path
+            query_method   = $row.query_method
+            value          = $queryResult
+        }
     }
 }
-
 
 # Export results to JSON
 $json = $results | ConvertTo-Json -Depth 3
@@ -146,4 +144,3 @@ $json = $json -replace '\\u0027', "'"  # Replace Unicode escaped single quotes w
 [System.IO.File]::WriteAllText($outputJsonPath, $json, [System.Text.Encoding]::UTF8)
 
 Write-Host "Audit results saved to $outputJsonPath"
-    
