@@ -13,9 +13,17 @@ $policyContent = Get-Content -Path $seceditExportPath
 $results = @()
 $errorLog = @()
 
+# Get current user's SID
+$currentUserSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+
 # Loop through each audit entry
 foreach ($row in $csvData) {
     $queryResult = ""
+   # Replace [USER SID] placeholder with actual SID
+   if ($row.reg_query_path -like "*[USER SID]*") {
+       $row.reg_query_path = $row.reg_query_path -replace '\[USER SID\]', $currentUserSid
+   }
+   
 
     switch -Wildcard  ($row.query_method) {
         "registry" {
