@@ -127,13 +127,13 @@ foreach ($row in $csvData) {
     $existing = $results | Where-Object { $_.audit_name -eq $row.audit_name }
 
     if ($existing) {
-        $existing.value += $queryResult
+        $existing.Result += $queryResult
     } else {
         $results += [PSCustomObject]@{
             audit_name     = $row.audit_name
             reg_query_path = $row.reg_query_path
             query_method   = $row.query_method
-            value          = $queryResult
+            Result         = $queryResult
         }
     }
 }
