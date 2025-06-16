@@ -1,5 +1,5 @@
 # Define input/output paths
-$inputCsvPath = "C:\Users\Welcome\Desktop\Win Config Audit Final\Win_Config_Audit\Win_Registry_Queries.csv"
+$inputCsvPath   = "C:\Users\Welcome\Desktop\Win Config Audit Final\Win_Config_Audit\Win_Registry_Queries.csv"
 $outputJsonPath = "C:\Users\Welcome\Desktop\Win Config Audit Final\Win_Config_Audit\output.json"
 
 # Import CSV data
@@ -8,12 +8,13 @@ $csvData = Import-Csv -Path $inputCsvPath
 # Export local security policy to file
 $seceditExportPath = "C:\secpol.cfg"
 secedit /export /cfg $seceditExportPath | Out-Null
+
 # Load the policy file contents into memory
 $policyContent = Get-Content -Path $seceditExportPath
 
 # Initialize result and error logs
-$results = @()
-$errorLog = @()
+$results   = @()
+$errorLog  = @()
 
 # Get current user's SID
 $currentUserSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
@@ -27,29 +28,46 @@ foreach ($row in $csvData) {
         $row.reg_query_path = $row.reg_query_path -replace '\[USER SID\]', $currentUserSid
     }
 
-        # Switch based on the type of query method
+    # Switch based on the type of query method
     switch -Wildcard ($row.query_method) {
+
         "registry" {
             try {
-                 # Try to get registry values from the given path
+                Write-Host "Querying Registry Path: $($row.reg_query_path)"
+
                 $regItem = Get-ItemProperty -Path $row.reg_query_path -ErrorAction Stop
-                
-                # Split and trim reg_query_name to support multiple value names (comma-separated)
-                $valueNames = $row.reg_query_name -split ',' | ForEach-Object { $_.Trim() }
-                foreach ($name in $valueNames) {
-                    if ($regItem.PSObject.Properties.Name -contains $name) {
-                        # If value exists, collect the value
-                        $queryResult += @{ ($name) = $regItem.$name }
-                    } else {
-                        # Key found, but value is not present
-                        $queryResult += @{ ($name) = "Key Found, Value Not Present" }
+
+                if ([string]::IsNullOrWhiteSpace($row.reg_query_name)) {
+                    Write-Host "No value name provided; dumping all values from key."
+
+                    $allProps = $regItem.PSObject.Properties | Where-Object {
+                        $_.Name -notlike "PS*"
+                    }
+
+                    foreach ($prop in $allProps) {
+                        $queryResult += @{ ($prop.Name) = $prop.Value }
+                        Write-Host "Found value '$($prop.Name)': $($prop.Value)"
+                    }
+                } else {
+                    $valueNames = $row.reg_query_name -split ',' | ForEach-Object { $_.Trim() }
+                    Write-Host "Checking value names from CSV: $($valueNames -join ', ')"
+
+                    foreach ($name in $valueNames) {
+                        $prop = $regItem.PSObject.Properties[$name]
+                        if ($prop) {
+                            $queryResult += @{ ($name) = $prop.Value }
+                            Write-Host "Found value for '$name': $($prop.Value)"
+                        } else {
+                            $queryResult += @{ ($name) = "Key Found, Value Not Present" }
+                            Write-Host "Value '$name' not present in key."
+                        }
                     }
                 }
             } catch {
-                 # Registry key not found or inaccessible
-                $queryResult += @{ ($row.reg_query_name) = "Registry Key Not Found" }
-                
-                # Add error details to error log
+                $keyName = if ($row.reg_query_name -ne "") { $row.reg_query_name } else { "RegistryKey" }
+                $queryResult += @{ ($keyName) = "Registry Key Not Found" }
+
+
                 $errorLog += [PSCustomObject]@{
                     Timestamp    = (Get-Date).ToString("s")
                     QueryPath    = $row.reg_query_path
@@ -57,22 +75,20 @@ foreach ($row in $csvData) {
                     ErrorMessage = $_.Exception.Message
                     ErrorType    = $_.FullyQualifiedErrorId
                 }
+
+                Write-Host "Error querying registry: $($_.Exception.Message)"
             }
         }
 
         "local_group_policy" {
             $settingName = $row.reg_query_name
 
-            # Find line in policy export that matches the setting name
             $line = $policyContent | Where-Object { $_ -match "^\s*$settingName\s*=" }
 
             if ($line) {
-                # Extract the value after '=' and clean up quotes/whitespace
-                $sidRaw = ($line -split "=")[1].Trim().Trim('"')
-                # Split into multiple entries (usually comma-separated SIDs or names)
+                $sidRaw   = ($line -split "=")[1].Trim().Trim('"')
                 $sidParts = $sidRaw -split ","
 
-                # Try to resolve each SID or user to a readable NTAccount name
                 $resolvedNames = $sidParts | ForEach-Object {
                     $entry = $_.Trim()
                     if ($entry -like "*S-1-*") {
@@ -80,11 +96,10 @@ foreach ($row in $csvData) {
                             $sidObj = New-Object System.Security.Principal.SecurityIdentifier ($entry.TrimStart('*'))
                             $sidObj.Translate([System.Security.Principal.NTAccount]).Value
                         } catch {
-                            $entry # If failed, return raw SID
+                            $entry
                         }
                     } else {
                         try {
-                            # Attempt direct translation of NTAccount
                             (New-Object System.Security.Principal.NTAccount($entry)).Translate([System.Security.Principal.NTAccount]).Value
                         } catch {
                             $entry
@@ -93,7 +108,7 @@ foreach ($row in $csvData) {
                 }
 
                 $resolvedNames = $resolvedNames | ForEach-Object {
-                    $_ -replace "^(NT AUTHORITY\\|BUILTIN\\|RESTRICTED SERVICES\\)", ""  # Clean prefixes like "NT AUTHORITY\", "BUILTIN\", etc.
+                    $_ -replace "^(NT AUTHORITY\\|BUILTIN\\|RESTRICTED SERVICES\\)", ""
                 }
 
                 $queryResult += @{ ($settingName) = ($resolvedNames -join ", ") }
@@ -108,7 +123,6 @@ foreach ($row in $csvData) {
                 $fullCommand = "$($row.reg_query_path):`"$subcategory`""
                 $auditOutput = Invoke-Expression $fullCommand 2>$null
 
-                # Check for command failure or empty output
                 if ($LASTEXITCODE -ne 0 -or !$auditOutput) {
                     $queryResult += @{ ($subcategory) = "Error" }
                 } else {
@@ -139,7 +153,7 @@ foreach ($row in $csvData) {
         }
     }
 
-    # Check if audit_name already exists in results (group multiple values under one audit)
+    # Group results under one audit entry if already exists
     $existing = $results | Where-Object { $_.audit_name -eq $row.audit_name }
 
     if ($existing) {
@@ -156,7 +170,7 @@ foreach ($row in $csvData) {
 
 # Export results to JSON
 $json = $results | ConvertTo-Json -Depth 3
-$json = $json -replace '\\u0027', "'"  # Replace Unicode escaped single quotes with actual single quotes
+$json = $json -replace '\\u0027', "'"
 [System.IO.File]::WriteAllText($outputJsonPath, $json, [System.Text.Encoding]::UTF8)
 
 Write-Host "Audit results saved to $outputJsonPath"
